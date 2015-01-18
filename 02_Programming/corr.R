@@ -3,21 +3,24 @@ corr <- function(directory, threshold = 0) {
   
   
   #files <- character()
-  returnVals <- vector()
+  cor.results <- vector("numeric")
   for (i in seq_along(completeList[,"id"])) {
     if (completeList[i,"nobs"] > threshold) {
       #files[[length(files)+1]]=sprintf("%s\\%03d.csv",directory,completeList[i,"id"])
       file <- sprintf("%s\\%03d.csv",directory,completeList[i,"id"])
       mydata  <- read.csv(file)
       good <- complete.cases(mydata)
-      corValue = cor(mydata[good,c("nitrate","sulfate")])
-      returnVals <- c(returnVals,corValue)
+      #corValue <- cor(mydata[good,c("nitrate","sulfate")])
+      cor.results <- c(cor.results,cor(mydata[good,"sulfate"],mydata[good,"nitrate"]))
+      #print(corValue)
+      #returnVals <- append(returnVals,corValue)
+      #returnVals <- c(returnVals,corValue)
       #print(c(mydata[good,"nitrate"],mydata[good,"sulfate"]))
       #c(files, list(completeList[,"id"]))
       #print(completeList[i,"nobs"])
     }
   }
-  returnVals
+  cor.results
   #files <- dir(directory, pattern = '\\.csv', full.names = TRUE)
   #print(files)
 
